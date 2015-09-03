@@ -1,0 +1,41 @@
+1. Annotation Sets (input)
+- core genome (mm10/hg19)
+- HindIII (digested file from HiCUP digester)
+
+2. Bam file (input)
+- output of HiCUP
+
+3. Processing
+Data -> Define probes -> feature probe generator -> features to design around -> HindIII -> create probes -> fixed value quantitation
+
+Filtering -> filter by position -> chr2 (or any chromosome of interest) -> Run filter
+
+Trend Plot -> probe
+
+Data -> Define probes -> merge consecutive probes generator -> number of probes to merge -> 100 -> step size -> 50
+
+Read count quantitation -> quantitate
+
+Filtering -> probe length filter -> 600,000
+
+Filtering -> statistical test -> boxwhisker -> run filter
+
+Filtering -> combine lists -> probe length BUT NOT outliers
+
+x/y probes left
+
+Data -> quantitate existing probes -> subtract median chr value
+
+red - trans
+blue - cis
+
+Filtering -> statistical test -> boxwhisker -> run filter
+
+Filtering -> combine lists -> sensible BUT NOT above (sensible cis/trans interactions)
+
+z/y probes left
+
+4. Heatmap
+Create heat map & save annotation. The saved file has significant interactions.
+
+# Alternatively, after getting HiCUP output bam, use GOTHiC R package to get significant interactions.
