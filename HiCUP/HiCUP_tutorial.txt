@@ -1,0 +1,30 @@
+http://www.bioinformatics.babraham.ac.uk/projects/hicup/scripts_description/#HiCUP
+
+# get fastq from sra
+fastq-dump --split-3 
+
+# hicup
+tools/hicup_v0.5.3/
+
+# build indexes in tools/hicup_v0.5.3/
+# first make directory where indices will lie
+mkdir Mouse_mm10_bwt2_index 
+
+# build bowtie2 indexes
+bowtie2-build /NGSshare/mm10_data/chr1.fa,/NGSshare/mm10_data/chr2.fa,/NGSshare/mm10_data/chr3.fa,/NGSshare/mm10_data/chr4.fa,/NGSshare/mm10_data/chr5.fa,/NGSshare/mm10_data/chr6.fa,/NGSshare/mm10_data/chr7.fa,/NGSshare/mm10_data/chr8.fa,/NGSshare/mm10_data/chr9.fa,/NGSshare/mm10_data/chr10.fa,/NGSshare/mm10_data/chr11.fa,/NGSshare/mm10_data/chr12.fa,/NGSshare/mm10_data/chr13.fa,/NGSshare/mm10_data/chr14.fa,/NGSshare/mm10_data/chr15.fa,/NGSshare/mm10_data/chr16.fa,/NGSshare/mm10_data/chr17.fa,/NGSshare/mm10_data/chr18.fa,/NGSshare/mm10_data/chr19.fa,/NGSshare/mm10_data/chrM.fa,/NGSshare/mm10_data/chrX.fa,/NGSshare/mm10_data/chrY.fa ./Mouse_mm10_bwt2_index/Mouse_mm10
+
+# use hicup_digester program to digest chromosomes
+./hicup_digester -g mouse_mm10 --re1 A^AGCTT,HindIII /NGSshare/mm10_data/chr*.fa 
+
+# this will create 'Digest_mouse_mm10_HindIII_None_14-38-08_20-03-2015.txt' file
+
+# get config file from tools/hicup_v0.5.3/config_files/
+# edit config file
+vi hicup.conf
+
+# run hicup
+nohup hicup --config hicup.conf 
+
+# this will generate a number of QC plots and a bam file of the format *.hicup.bam
+
+# this bam file can be used in GOTHiC R package or Seqmonk to get significant interactions.
